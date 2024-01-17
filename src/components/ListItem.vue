@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="item">
     <input 
       class="input"
@@ -25,7 +25,37 @@ export default {
     }
   }
 }
+</script> -->
+
+<script setup>
+  import { ref, watch, defineProps } from 'vue';
+
+  const props = defineProps(['url', 'index', 'onRemoveInput', 'onUpdateUrl']);
+  const url = ref(props.url);
+
+  const updateInput = (event) => {
+    props.onUpdateUrl(props.index, event.target.value);
+  };
+
+  watch(
+    () => url,
+    (newUrl) => {
+      url.value = newUrl;
+    }
+  );
 </script>
+
+<template>
+  <div class="item">
+    <input
+      class="input"
+      v-model="url"
+      @input="updateInput"
+      placeholder="Enter url"
+    />
+    <button @click="onRemoveInput(index)">x</button>
+  </div>
+</template>
 
 <style scoped>
 .item {
@@ -45,5 +75,4 @@ input {
   flex: 1;
   margin-right: 8px;
 }
-
 </style>

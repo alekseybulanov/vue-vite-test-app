@@ -1,7 +1,7 @@
 <template>
   <div class="list">
     <button @click="addInput">Add item</button>
-    <list-item v-for="(url, index) in urls" :key="index" :url="url" :index="index" @updateUrl="updateUrl"/>
+    <list-item v-for="(url, index) in urls" :key="index" :url="url" :index="index" v-on="{ removeInput, updateUrl }" />
   </div>
 </template>
 
@@ -20,6 +20,9 @@ export default {
   methods: {
     addInput() {
       this.$store.commit('addInput');
+    },
+    removeInput(index) {
+      this.$store.commit('removeInput', index);
     },
     updateUrl(index, newUrl) {
       this.$store.commit('updateInput', { index, url: newUrl });
