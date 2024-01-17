@@ -1,7 +1,7 @@
 <template>
   <div class="list">
     <button @click="addInput">Add item</button>
-    <list-item v-for="(url, index) in urls" :key="index" :url="url" :index="index" v-on="{ removeInput, updateUrl }" />
+    <list-item v-for="(url, index) in urls" :key="index" :url="url" :index="index" @remove-input="removeInput" @update-url="updateUrl" />
   </div>
 </template>
 

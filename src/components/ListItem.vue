@@ -28,32 +28,32 @@ export default {
 </script> -->
 
 <script setup>
-  import { ref, watch, defineProps } from 'vue';
+  import { defineProps, computed } from 'vue';
+  import { useStore } from 'vuex';
 
-  const props = defineProps(['url', 'index', 'onRemoveInput', 'onUpdateUrl']);
-  const url = ref(props.url);
+  const store = useStore();
+  const props = defineProps(['index']);
+  const url = computed(() => store.state.urls[props.index] || '');
 
   const updateInput = (event) => {
-    props.onUpdateUrl(props.index, event.target.value);
+    store.commit('updateInput', { index: props.index, url: event.target.value });
+    store.commit('setCurrentImageByIndex', props.index);
   };
 
-  watch(
-    () => url,
-    (newUrl) => {
-      url.value = newUrl;
-    }
-  );
+  const removeInput = () => {
+    store.commit('removeInput', props.index);
+  };
 </script>
 
 <template>
   <div class="item">
     <input
       class="input"
-      v-model="url"
+      :value="url"
       @input="updateInput"
       placeholder="Enter url"
     />
-    <button @click="onRemoveInput(index)">x</button>
+    <button @click="removeInput">x</button>
   </div>
 </template>
 
